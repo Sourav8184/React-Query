@@ -1,27 +1,42 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+// React Query:
+import { useQuery } from "react-query";
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        setLoading(false);
-        setError(null);
-        const res = await fetch("https://dummyjson.com/products");
-        const data = await res.json();
-        setProducts(data.products);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-    fetchProducts();
-  }, []);
+const fetchProducts = async () => {
+  const res = await fetch("https://dummyjson.com/products");
+  const data = await res.json();
+  return data.products;
+};
+
+const Products = () => {
+  const {
+    data: products,
+    loading,
+    error,
+  } = useQuery({ queryKey: ["products"], queryFn: fetchProducts });
+
+  //   const [products, setProducts] = useState([]);
+  //   const [loading, setLoading] = useState(false);
+  //   const [error, setError] = useState(null);
+
+  //   useEffect(() => {
+  //     const fetchProducts = async () => {
+  //       try {
+  //         setLoading(false);
+  //         setError(null);
+  //         const res = await fetch("https://dummyjson.com/products");
+  //         const data = await res.json();
+  //         setProducts(data.products);
+  //         setLoading(false);
+  //       } catch (error) {
+  //         setError(error.message);
+  //         setLoading(false);
+  //       }
+  //     };
+  //     fetchProducts();
+  //   }, []);
 
   if (loading) {
     return <h1 className="text-center">Loading...</h1>;
@@ -38,7 +53,7 @@ const Products = () => {
         </h2>
 
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
+          {products?.map((product) => (
             <div key={product.id} className="group relative">
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                 <img
