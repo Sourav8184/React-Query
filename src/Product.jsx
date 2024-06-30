@@ -10,6 +10,9 @@ import { useQuery, useMutation } from "react-query";
 const Product = () => {
   const { productId } = useParams();
 
+  /* mutations are typically used to create/update/delete data
+   or perform server side-effects. */
+
   const mutation = useMutation((updated_Product) => {
     return axios.put(
       `https://dummyjson.com/products/${productId}`,
@@ -85,7 +88,7 @@ const Product = () => {
       </div>
       <button
         onClick={() => {
-          mutation.mutate({ id: productId, title: "Title updated" });
+          mutation.mutate({ title: "Title updated" });
         }}>
         Update
       </button>

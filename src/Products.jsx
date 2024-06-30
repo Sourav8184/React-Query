@@ -24,7 +24,7 @@ const Products = () => {
   //   useEffect(() => {
   //     const fetchProducts = async () => {
   //       try {
-  //         setLoading(false);
+  //         setLoading(true);
   //         setError(null);
   //         const res = await fetch("https://dummyjson.com/products");
   //         const data = await res.json();
